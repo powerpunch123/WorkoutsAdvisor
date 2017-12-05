@@ -1,54 +1,43 @@
 package com.example.charlescheng.workoutsadvisor;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.List;
 
 
+public class FindWorkoutActivity extends Activity {
 
-public class FindWorkoutActivity extends AppCompatActivity {
+    private WorkoutExpert expert = new WorkoutExpert();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_workout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_find_workout, menu);
-        return true;
-    }
+    public void onClickFindWorkout (View view) {
+        TextView workouts = (TextView) findViewById(R.id.workout);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Spinner workouttype = (Spinner) findViewById(R.id.workouttype);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        String workout=String.valueOf(workouttype.getSelectedItem());
+
+        //workouts.setText(workout);
+        List<String> workoutList = expert.getWorkouts(workout);
+
+        StringBuilder workoutsFormatted = new StringBuilder();
+
+        for (String work : workoutList) {
+
+            workoutsFormatted.append(work).append('\n');
         }
-
-        return super.onOptionsItemSelected(item);
+        workouts.setText(workoutsFormatted);
     }
+
 }
